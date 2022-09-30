@@ -1,0 +1,7 @@
+INDEX VERSION 1.4+E:\Courses\CTS intern FSE\projects preparation\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
+3798884077.index
+979614839.index
+1227840630.index
+4257084986.index
+3473818828.index
+4156882525.index

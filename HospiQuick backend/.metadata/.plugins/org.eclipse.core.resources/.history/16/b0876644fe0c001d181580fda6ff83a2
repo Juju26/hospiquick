@@ -1,0 +1,58 @@
+package com.springboot.queries.controller;
+
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.hospiquick.appointment.controller.AppController;
+import com.springboot.queries.entities.Query;
+import com.springboot.queries.services.QueryService;
+
+
+//@CrossOrigin(origins = "",allowedHeaders = "",methods = {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE} )
+@CrossOrigin(origins = "http://localhost:3000")
+@RestController
+public class Controller {
+	
+	private static final Logger logger=LoggerFactory.getLogger(AppController.class);
+	
+	@Autowired
+	public QueryService queryService;
+
+	@GetMapping("/")
+	public String Home() {
+		return "This is Home";
+	}
+	
+	@GetMapping("/queries")
+	public List<Query> getAllQueries(){
+		return this.queryService.getAllQueries();
+	}
+	
+	@PostMapping("/queries")
+	public String postNewQuery(@RequestBody Query query) {
+		return this.queryService.postNewQuery(query);
+	}
+	
+	
+	@PutMapping("/queries/{queryId}")
+	public String updateQueryById(@PathVariable String queryId, @RequestBody Query query) {
+		return this.queryService.updateQueryById(Long.parseLong(queryId), query);
+	}
+	
+	@DeleteMapping("/queries/{queryId}")
+	public String deleteQueryById(@PathVariable Long queryId) {
+		return this.queryService.deleteQueryById(queryId);
+	}
+}

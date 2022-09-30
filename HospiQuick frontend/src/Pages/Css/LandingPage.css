@@ -1,0 +1,82 @@
+.landing-page{
+    display: flex;
+    flex-direction: column;
+}
+.hero-container{
+    width: 100vw;
+    display: flex;
+    float: right;
+    padding: auto;
+    height: 45%;
+}
+
+.hero-text-container{
+    width: 50vw;
+    display:flex;
+    flex-direction: column;
+    padding: 10px;
+    margin: 30px;
+    align-items:flex-start;
+    justify-content: center;
+}
+
+.hero-heading{
+    font-family: 'Niramit';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 150px;
+    line-height: 104px;
+    color: #440D8B;
+}
+.hero-text{
+    color: #8466BB;
+    height: 250px;
+    margin-top: 0px;
+    padding: 0px;
+}
+.hero-image-container{
+    width: 50vw;
+    display: flex;
+    float: right;
+}
+.hero-image{
+    width: 100%;
+}
+
+.features-container{
+    width: 100vw;
+    height: 45%;
+    display: flex;
+    float: right;
+    margin: auto;
+    padding: auto;
+    background-color: #d6c0fc;
+    justify-content:space-evenly;
+}
+
+.feature-container{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 30%;
+    margin: 20px auto;
+    padding: 25px 10px;
+    border: 1px solid white;
+    border-radius: 40px;
+    background-color: white;
+    box-shadow: 2px 2px 3px rgb(129, 129, 129);
+}
+
+.feature-card-heading{
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.feature-img{
+    height: 220px;
+}
+.margin-container{
+    height: 40px;
+    width: 100vw;
+}

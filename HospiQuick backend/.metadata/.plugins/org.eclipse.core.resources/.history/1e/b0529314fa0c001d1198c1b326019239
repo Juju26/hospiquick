@@ -1,0 +1,80 @@
+package com.hospiquick.auth.controller;
+
+import javax.validation.Valid;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.hospiquick.auth.payload.request.LoginRequest;
+import com.hospiquick.auth.payload.request.SignupRequest;
+import com.hospiquick.auth.payload.response.JwtResponse;
+import com.hospiquick.auth.payload.response.MessageResponse;
+import com.hospiquick.auth.repository.RoleRepository;
+import com.hospiquick.auth.repository.UserRepository;
+import com.hospiquick.auth.security.jwt.JwtUtils;
+import com.hospiquick.auth.security.services.UserDetailServiceImpl;
+import com.hospiquick.auth.service.AuthService;
+
+@RestController
+@CrossOrigin(origins = "*",allowedHeaders = "*",methods = {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE} )
+@RequestMapping("api/auth")
+public class AuthController {
+	private static final Logger logger=LoggerFactory.getLogger(AuthController.class);
+  @Autowired
+  AuthenticationManager authenticationManager;
+  
+  @Autowired
+  UserRepository userRepository;
+  
+  @Autowired
+  RoleRepository roleRepository;
+  
+  @Autowired
+  PasswordEncoder encoder;
+  
+  @Autowired
+  JwtUtils jwtUtils;
+  
+  @Autowired
+  UserDetailServiceImpl userDetailsService;
+  
+//  @Autowired
+//  AuthServiceImpl authService;
+  @Autowired
+  AuthService authService;
+  
+  @PostMapping("/signin")
+  public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest){
+	  JwtResponse jwtResponse=authService.signInResponse(loginRequest.getName(), loginRequest.getPassword());
+	  logger.info("signin success");
+	  return ResponseEntity.ok(jwtResponse);
+  }
+  
+  
+  @PostMapping("/signup")
+  public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+
+	  if(authService.existPhoneNo(signUpRequest.getPhoneNo())) {
+		  return ResponseEntity.badRequest().body(new MessageResponse("Error: PhoneNo is already taken!"));
+	  }
+	  if (authService.existEmail(signUpRequest.getEmail())) {
+          return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
+          
+      }
+	    
+	  logger.info("signup successful");
+
+	  JwtResponse jwtResponse=authService.signupResponse(signUpRequest.getName(), signUpRequest.getEmail(),signUpRequest.getPassword(), signUpRequest.getPhoneNo());
+	  return ResponseEntity.ok(jwtResponse);
+  }
+}

@@ -1,0 +1,188 @@
+package com.hospiquick.auth.controller;
+
+import javax.validation.Valid;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.hospiquick.auth.payload.request.LoginRequest;
+import com.hospiquick.auth.payload.request.SignupRequest;
+import com.hospiquick.auth.payload.response.JwtResponse;
+import com.hospiquick.auth.payload.response.MessageResponse;
+import com.hospiquick.auth.repository.RoleRepository;
+import com.hospiquick.auth.repository.UserRepository;
+import com.hospiquick.auth.security.jwt.JwtUtils;
+import com.hospiquick.auth.security.services.UserDetailServiceImpl;
+import com.hospiquick.auth.service.AuthService;
+
+@RestController
+@CrossOrigin(origins = "*",allowedHeaders = "*",methods = {RequestMethod.GET,RequestMethod.POST,RequestMethod.PUT,RequestMethod.DELETE} )
+@RequestMapping("api/auth")
+public class AuthController {
+	private static final Logger logger=LoggerFactory.getLogger(AuthController.class);
+  @Autowired
+  AuthenticationManager authenticationManager;
+  
+  @Autowired
+  UserRepository userRepository;
+  
+  @Autowired
+  RoleRepository roleRepository;
+  
+  @Autowired
+  PasswordEncoder encoder;
+  
+  @Autowired
+  JwtUtils jwtUtils;
+  
+  @Autowired
+  UserDetailServiceImpl userDetailsService;
+  
+//  @Autowired
+//  AuthServiceImpl authService;
+  @Autowired
+  AuthService authService;
+  
+  @PostMapping("/signin")
+  public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest){
+	  JwtResponse jwtResponse=authService.signInResponse(loginRequest.getName(), loginRequest.getPassword());
+	  logger.info("signin success");
+	  return ResponseEntity.ok(jwtResponse);
+  }
+  
+  
+  @PostMapping("/signup")
+  public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+
+	  if(authService.existPhoneNo(signUpRequest.getPhoneNo())) {
+		  return ResponseEntity.badRequest().body(new MessageResponse("Error: PhoneNo is already taken!"));
+	  }
+	  if (authService.existEmail(signUpRequest.getEmail())) {
+          return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
+          
+      }
+	    
+	  logger.info("signup successful");
+
+	  JwtResponse jwtResponse=authService.signupResponse(signUpRequest.getName(), signUpRequest.getEmail(),signUpRequest.getPassword(), signUpRequest.getPhoneNo());
+	  return ResponseEntity.ok(jwtResponse);
+  }
+  
+//  @PostMapping("/adminsignup")
+//  public ResponseEntity<?> registerAdminUser(@Valid @RequestBody SignupRequest signUpRequest) {
+//	  
+//
+//	  if(authService.existPhoneNo(signUpRequest.getPhoneNo())) {
+//		  return ResponseEntity.badRequest().body(new MessageResponse("Error: PhoneNo is already taken!"));
+//	  }
+//	  if (authService.existEmail(signUpRequest.getEmail())) {
+//          return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
+//          
+//      }
+//	    
+//	  JwtResponse jwtResponse=authService.adminSignUp(signUpRequest.getName(), signUpRequest.getEmail(),signUpRequest.getPassword(), signUpRequest.getPhoneNo());
+//	  return ResponseEntity.ok(jwtResponse);
+//  }
+//  
+//  @PostMapping("/{id}")
+//  public ResponseEntity<?>  getUser(@PathVariable String id, @RequestBody SignupRequest signUpRequest){
+//	  try {
+//	  User searchUser = authService.searchUser(id, signUpRequest);
+//	  return new ResponseEntity<User>(searchUser,HttpStatus.CREATED);
+//	  }catch(NoSuchElementException e) {
+//		  return new ResponseEntity<>(new MessageResponse("Not found the user with id "+id),HttpStatus.BAD_REQUEST);
+//	  }
+//		  
+//	  
+//  }
+//  
+//  @GetMapping(path = "/validate-v1")
+//   public ResponseEntity<?> validatingAuthorizationToken( @RequestHeader(name = "Authorization") String tokenDup) {
+//		
+//
+//		try {
+//			TokenValidation tokenValidation =authService.validationToken(tokenDup);
+//			return new ResponseEntity<>(tokenValidation,HttpStatus.ACCEPTED);
+//		}catch(Exception e) {
+//			return new ResponseEntity<>(new TokenValidation(false),HttpStatus.UNAUTHORIZED);
+//		}
+//	}
+//  @GetMapping(path = "/validate/{tokenDup}")
+//  public ResponseEntity<?> validatingAuthorizationTokenService( @PathVariable String tokenDup) {
+//		String token = tokenDup.substring(7);
+//	
+//		try {
+//			if (Boolean.TRUE.equals(jwtUtils.validateJwtToken(token))) {
+//				return new ResponseEntity<>(new TokenValidation(true), HttpStatus.ACCEPTED);
+//			} else {
+//				throw new TokenException(token,"Invalid Token");
+//			}
+//		} catch (Exception e) {
+//			return new ResponseEntity<>(new TokenValidation(false), HttpStatus.UNAUTHORIZED);
+//		}
+//		
+//	}
+//  @GetMapping(path="/{id}")
+//  public ResponseEntity<?> checkUser(@RequestHeader(name = "Authorization") String tokenDup,@PathVariable String id){
+//	  TokenValidation validationToken = authService.validationToken(tokenDup);
+//	  if(!validationToken.getToken()) {
+//		  return new ResponseEntity<>(new MessageResponse("not Validated token"),HttpStatus.UNAUTHORIZED);
+//	  }
+//	  try {
+////	  Optional<User> findByUserId = userRepository.findByUserId(Long.parseLong(id));
+////	  User user=findByUserId.get();
+//	  User user=authService.userCheck(id);
+//	  return new ResponseEntity<>(user,HttpStatus.OK);
+//	  }catch(Exception e) {
+//		  return new ResponseEntity<>(new MessageResponse("Not found the user with id "+id),HttpStatus.BAD_REQUEST);
+//	  }
+//  }
+//  
+//  @GetMapping(path="all-user")
+//  public ResponseEntity<?>getAllUser(@RequestHeader(name = "Authorization") String tokenDup){
+//	  TokenValidation validationToken=authService.validationToken(tokenDup);
+//	  if(!validationToken.getToken()) {
+//		  return new ResponseEntity<>(new MessageResponse("not Validated token"),HttpStatus.UNAUTHORIZED);
+//	  }
+//	     List<User> allUser= userRepository.findAll();
+//	     return new ResponseEntity<>(allUser,HttpStatus.OK);
+//	  
+//  }
+//  @GetMapping(path="user-id/{id}")
+//  public ResponseEntity<?>shouldUserPresent(@PathVariable String id){
+//	  if(userRepository.existsByUserId(Long.parseLong(id))) {
+//		  return new ResponseEntity<>(true,HttpStatus.OK);
+//	  }else {
+//		  return new ResponseEntity<>(false,HttpStatus.OK);
+//	  }
+//  }
+//  @GetMapping(path="check-email/{email}")
+//  public ResponseEntity<?>checkEmail(@PathVariable String email){
+//	  if (authService.existEmail(email)) {
+//          return new ResponseEntity<>(true,HttpStatus.OK);   
+//      }else {
+//    	  return new ResponseEntity<>(false,HttpStatus.OK);
+//      }
+//  }
+//  
+//  @GetMapping(path="check-phone/{phoneNo}")
+//  public ResponseEntity<?>checkPhoneNo(@PathVariable String phoneNo){
+//	  if(authService.existPhoneNo(phoneNo)) {
+//		  return new ResponseEntity<>(true,HttpStatus.OK);
+//	  }else {
+//		  return new ResponseEntity<>(false,HttpStatus.OK);
+//	  }
+//  }
+//  
+ 
+}

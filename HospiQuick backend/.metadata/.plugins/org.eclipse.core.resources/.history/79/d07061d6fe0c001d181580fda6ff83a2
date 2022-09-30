@@ -1,0 +1,42 @@
+package com.springboot.queries.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.springboot.queries.dao.QueriesDoa;
+import com.springboot.queries.entities.Query;
+
+@Service
+public class QueryServiceImpl implements QueryService{
+
+	@Autowired
+	private QueriesDoa queriesDoa;
+	@Override
+	public List<Query> getAllQueries() {
+		// TODO Auto-generated method stub
+		
+		return queriesDoa.findAll();
+	}
+	@Override
+	public String postNewQuery(Query query) {
+		// TODO Auto-generated method stub
+		queriesDoa.save(query);
+		return "Query Successfully added";
+	}
+	@Override
+	public String updateQueryById(Long queryId, Query query) {
+		// TODO Auto-generated method stub
+		queriesDoa.save(query);
+		return "Query Updated Successfully";
+	}
+	@Override
+	public String deleteQueryById(Long queryId) {
+		// TODO Auto-generated method stub
+		Query query = queriesDoa.getOne(queryId);
+		queriesDoa.delete(query);
+		return "Query Deleted Successfully";
+	}
+
+}

@@ -1,0 +1,55 @@
+package com.springboot.queries.services;
+
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.springboot.queries.controller.Controller;
+import com.springboot.queries.dao.QueriesDoa;
+import com.springboot.queries.entities.Query;
+
+@Service
+public class QueryServiceImpl implements QueryService{
+
+	private static final Logger logger=LoggerFactory.getLogger(Controller.class);
+	
+	@Autowired
+	private QueriesDoa queriesDoa;
+	@Override
+	public List<Query> getAllQueries() {
+		// TODO Auto-generated method stub
+
+		logger.info("DB: Get all queries");
+		return queriesDoa.findAll();
+	}
+	@Override
+	public String postNewQuery(Query query) {
+		// TODO Auto-generated method stub
+		queriesDoa.save(query);
+
+		logger.info("DB: add new query");
+		return "Query Successfully added";
+	}
+	@Override
+	public String updateQueryById(Long queryId, Query query) {
+		// TODO Auto-generated method stub
+		queriesDoa.save(query);
+
+		logger.info("DB: update query");
+		return "Query Updated Successfully";
+	}
+	@Override
+	public String deleteQueryById(Long queryId) {
+		// TODO Auto-generated method stub
+		Query query = queriesDoa.getOne(queryId);
+		queriesDoa.delete(query);
+		
+
+		logger.info("DB: delete query");
+		return "Query Deleted Successfully";
+	}
+
+}

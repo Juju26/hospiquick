@@ -1,0 +1,142 @@
+.nav{
+  position: absolute;
+  width: 100vw;
+  height: 40px;
+  left: 0px;
+  top: 0px;
+  background: #C5ACF2;
+  z-index: 100;
+}
+
+.navbar-custom{
+  width: 100vw;
+  float: right;
+  padding-top: 0px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  
+}
+
+a:link {
+  color:rgb(146, 11, 146);
+  text-decoration: none;
+}
+
+/* visited link */
+a:visited {
+  color: rgb(146, 11, 146);
+  text-decoration: none;
+}
+
+/* mouse over link */
+a:hover {
+  color: rgb(146, 11, 146);
+  text-decoration: none;
+}
+
+/* selected link */
+a:active {
+  color: rgb(146, 11, 146);
+  text-decoration: none;
+}
+
+.logo-container{
+  vertical-align: middle;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.logo-img{
+  height: 45px;
+  width : 45px;
+}
+.logo-text{
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  top: 50%;
+  color: #F6F1FF;
+}
+
+.logo-text:hover{
+  cursor: pointer;
+}
+
+.navbar-signin{
+    /* Login / Sign Up */
+    top: 50%;
+    margin-right: 20px;
+    font-family: 'Lato';
+    font-weight: 600;
+    font-size: 18px;
+    color: #FFFFFF;
+    float: right;
+    position: flex;
+}
+.navbar-logout{
+  top: 50%;
+  margin-right: 20px;
+  font-family: 'Lato';
+  font-weight: 600;
+  font-size: 18px;
+  color: #FFFFFF;
+  right: -40vw;
+  position: relative;
+}
+
+.footer{
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  width: 100vw;
+  height: 40px;
+  left: 0px;
+  bottom: 0px;
+  background: #C5ACF2;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.footerText{
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  color: #5B3A95;
+
+}
+
+.query-box{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: #E9DDFF;
+  margin: 10px;
+  padding: 20px 30px;
+  border-radius: 25px;
+}
+
+/* Pagination links */
+.pagination a {
+  color: black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: background-color .3s;
+}
+
+/* Style the active/current link */
+.pagination a.active {
+  background-color: dodgerblue;
+  color: white;
+}
+
+/* Add a grey background color on mouse-over */
+.pagination a:hover:not(.active) {background-color: #ddd;}

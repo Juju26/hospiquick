@@ -1,0 +1,8 @@
+server.port = 8080
+spring.application.name=queries_ms
+
+spring.datasource.url=jdbc:mysql:// localhost:3306/queries?useSSL=false
+spring.datasource.username=root
+spring.datasource.password=root@123
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
+spring.jpa.hibernate.ddl-auto=update

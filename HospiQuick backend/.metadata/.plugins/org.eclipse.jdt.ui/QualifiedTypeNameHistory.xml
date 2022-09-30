@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="java.lang.SuppressWarnings"/>
+    <fullyQualifiedTypeName name="org.slf4j.Logger"/>
+    <fullyQualifiedTypeName name="org.apache.log4j.spi.LoggerFactory"/>
+    <fullyQualifiedTypeName name="com.hospiquick.appointment.controller.AppController"/>
+</qualifiedTypeNameHistroy>

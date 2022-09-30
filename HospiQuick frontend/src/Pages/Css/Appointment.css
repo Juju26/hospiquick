@@ -1,0 +1,96 @@
+.app-db{
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  height: 100vh;
+  margin: 0px;
+  padding: 0px;
+  z-index: 0;
+}
+
+
+
+.new-form-container{
+  position: absolute;
+  margin: auto;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(51, 49, 49, 0.781);
+  z-index: 100;
+}
+.form-hide{
+  display: none;
+}
+
+.new-form-card{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width : 50%;
+  padding: 20px;
+  background-color: white;
+  border: 1px solid white;
+  border-radius: 25px;
+}
+
+.app-form-input{
+  display: block;
+  color: black;
+  width: 600px;
+  height: 50px;
+  padding: 10px 20px;
+  border: 2px;
+  border-radius: 25px;
+  background-color: rgb(245, 195, 245);
+}
+
+::placeholder{
+  color: black;
+}
+
+.form-submit-btn{
+  border: 0px solid black;
+  border-radius: 15px;
+  padding: 10px 20px;
+  background-color: rgb(203, 163, 240);
+}
+
+.add-form-btn{
+  position: absolute;
+  bottom: 80px;
+  right: 50px;
+  height: 75px;
+  width: 75px;
+  border: 0px solid black;
+  border-radius: 50%;
+  background-color: rgb(175, 124, 223);
+  z-index: 100;
+}
+
+.add-form-btn-text{
+  font-size: 45px;
+  font-weight: 400;
+  color: white;
+}
+
+.pagination-position{
+  position: absolute;
+  bottom: 200px;
+  left: 280px;
+}
+
+
+
+#heading1{
+  padding-top: 60px;
+  margin-left: 220px ;
+  padding-bottom: 10px;
+  color: black;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
